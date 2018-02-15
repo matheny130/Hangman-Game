@@ -1,28 +1,30 @@
-
-
+//create array of possible letters
+var letter = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
 //create array of words to select
 var words = ["batman", "superman", "spiderman", "hulk", "flash"];
-
+var word = "";
 var wins = 0;
 //set available guesses at 10 to start
 var guessesRemain = 10;
 var guessesSoFar = [];
 
+function init() {
 
 
-//Choose word randomly
-const randomWordChoice = Math.floor(Math.random()*words.length);
-const selectedWord = words[randomWordChoice];
-   console.log(selectedWord);
-//Generate correct number of underscores for word selected
-const generateUnderscores = word => {
-    const underscores = [];
-    const brokenDown = word.split("");
+    //Choose word randomly
+    const randomWordChoice = Math.floor(Math.random() * words.length);
+    const selectedWord = words[randomWordChoice];
+    console.log(selectedWord);
 
-    return brokenDown.map(() => "_");
-}
+    //Generate correct number of underscores for word selected
+    const generateUnderscores = word => {
+        const underscores = [];
+        const brokenDown = word.split("");
+
+        return brokenDown.map(() => "_");
+    }
     console.log(generateUnderscores(selectedWord))
-    ;
+};
 //have computer recognize which key was pressed
 document.onkeyup = function () {
 
@@ -53,10 +55,10 @@ document.onkeyup = function () {
     if (guessesRemain === 0) {
         guessesRemain = 9;
         guessesSoFar = [];
-        currentWord =
+        currentWord = document.querySelector("init");
 
 
-    };
+    }
 
 //display results on page
     var html =
@@ -75,7 +77,7 @@ document.onkeyup = function () {
         "<br>" +
         "<p><h1>Current Word </h1></p>" +
         "<br>" +
-        "<p>" + generateUnderscores(selectedWord) + "</p>" +
+        "<p>" + generateUnderscores + "</p>" +
         "<br>" +
         "<br>" +
         "<br>" +
