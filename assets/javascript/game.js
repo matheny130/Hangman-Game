@@ -1,100 +1,148 @@
-//create array of possible letters
-var letter = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"]
-//create array of words to select
-var words = ["batman", "superman", "spiderman", "hulk", "flash"];
-var word = "";
-var wins = 0;
-//set available guesses at 10 to start
-var guessesRemain = 10;
-var guessesSoFar = [];
+var hangmanGame = {
+    wordsToPick: {
+        spiderman: {
+            picture: "assets/images/spiderman.jpg",
+        },
+        batman: {
+            picture: "assets/images/batman.jpg",
+        },
+        superman: {
+            picture: "assets/images/superman.jpg",
+        },
+        wolverine: {
+            picture: "assets/images/wolverine.jpg",
+        },
+        flash: {
+            picture: "assets/images/flash.jpg",
+        },
+        hulk: {
+            picture: "assets/images/hulk.jpg",
+        },
+        thor: {
+            picture: "assets/images/thor.jpg",
+        },
+        thing: {
+            picture: "assets/images/thing.jpg",
+        },
+        ironman: {
+            picture: "assets/images/ironman.jpg",
+        },
+        aquaman: {
+            picture: "assets/images/aquaman.jpg",
+        }
+    },
+    wordInPlay: null,
+    lettersOfTheWord: [],
+    matchedLetters: [],
+    guessedLetters: [],
+    guessesLeft: 0,
+    totalGuesses: 0,
+    letterGuessed: null,
+    wins: 0,
 
-function init() {
+    setupGame: function () {
+        var objKeys = Object.keys(this.wordsToPick);
+        this.wordInPlay = objKeys[Math.floor(Math.random() * objKeys.length)];
+        this.lettersOfTheWord = this.wordInPlay.split("");
+        this.rebuildWordView();
+        this.processUpdateTotalGuesses();
+    },
 
+    updatePage: function (letter) {
+        if (this.guessesLeft === 0) {
+            this.restartGame();
+        }
+        else {
+            this.updateGuesses(letter);
+            this.updateMatchedLetters(letter);
+            this.rebuildWordView();
 
-    //Choose word randomly
-    const randomWordChoice = Math.floor(Math.random() * words.length);
-    const selectedWord = words[randomWordChoice];
-    console.log(selectedWord);
-
-    //Generate correct number of underscores for word selected
-    const generateUnderscores = word => {
-        const underscores = [];
-        const brokenDown = word.split("");
-
-        return brokenDown.map(() => "_");
-    }
-    console.log(generateUnderscores(selectedWord))
-};
-//have computer recognize which key was pressed
-document.onkeyup = function () {
-
-    var userGuess = event.key;
-    console.log(userGuess);
-//display correct guess and replace underscore in selected word display
-//display incorrect guess in letters already guessed array
-    function isLetterInWord(letter) {
-        var letter = string.indexOf("right");
-        for (i = 0; i < words.length; i++) {
-            if (letter == word[i]) {
-                selectedWord[i] = letter;
-                rightGuess += letter;
-
-            } else if (letter !== selectedWord[i]) {
-                wrongGuess += letter;
-
+            if (this.updateWins() === true) {
+                this.restartGame();
             }
         }
+    },
+
+    updateGuesses: function (letter) {
+        if ((this.guessedLetters.indexOf(letter) === -1) && (this.lettersOfTheWord.indexOf(letter) === -1)) {
+            this.guessedLetters.push(letter);
+            this.guessesLeft--;
+            document.querySelector("#guesses-remaining").innerHTML = this.guessesLeft;
+            document.querySelector("#guessed-letters").innerHTML =
+                this.guessedLetters.join(", ");
+        }
+    },
+
+    processUpdateTotalGuesses: function () {
+        this.totalGuesses = this.lettersOfTheWord.length + 5;
+        this.guessesLeft = this.totalGuesses;
+        document.querySelector("#guesses-remaining").innerHTML = this.guessesLeft;
+    },
+
+    updateMatchedLetters: function (letter) {
+        for (var i = 0; i < this.lettersOfTheWord.length; i++) {
+            if ((letter === this.lettersOfTheWord[i]) && (this.matchedLetters.indexOf(letter) === -1)) {
+                this.matchedLetters.push(letter);
+            }
+        }
+    },
+
+    rebuildWordView: function () {
+        var wordView = "";
+        for (var i = 0; i < this.lettersOfTheWord.length; i++) {
+            if (this.matchedLetters.indexOf(this.lettersOfTheWord[i]) !== -1) {
+                wordView += this.lettersOfTheWord[i];
+            }
+            else {
+                wordView += "&nbsp;_&nbsp;";
+            }
+        }
+        document.querySelector("#current-word").innerHTML = wordView;
+    },
+
+    restartGame: function () {
+        document.querySelector("#guessed-letters").innerHTML = "";
+        this.wordInPlay = null;
+        this.lettersOfTheWord = [];
+        this.matchedLetters = [];
+        this.guessedLetters = [];
+        this.guessesLeft = 0;
+        this.totalGuesses = 0;
+        this.letterGuessed = null;
+        this.setupGame();
+        this.rebuildWordView();
+    },
+
+    updateWins: function () {
+        var win;
+
+        if (this.matchedLetters.length === 0) {
+            win = false;
+        }
+        else {
+            win = true;
+        }
+        for (var i = 0; i < this.lettersOfTheWord.length; i++) {
+            if (this.matchedLetters.indexOf(this.lettersOfTheWord[i]) === -1) {
+                win = false
+            }
+        }
+
+        if (win) {
+            this.wins = this.wins + 1;
+            document.querySelector("#wins").innerHTML = this.wins;
+            document.querySelector("#picture-div").innerHTML =
+                "<img class='hero-image' src='images/" +
+                this.wordsToPick[this.wordInPlay].picture + "' alt='";
+
+            return true;
+        }
+        return false;
     }
-
-//guess counter
-    if (guessesSoFar.indexOf(userGuess) < 0 && letter.indexOf(userGuess) >= 0) {
-        guessesSoFar[guessesSoFar.length] = userGuess;
-        guessesRemain--;
-    }
-//with each guess have counter go down one.Game ends at zero. reset game.
-    if (guessesRemain === 0) {
-        guessesRemain = 9;
-        guessesSoFar = [];
-        currentWord = document.querySelector("init");
-
-
-    }
-
-//display results on page
-    var html =
-        "<br>" +
-        "<br>" +
-        "<p><h1>Press Any Key To Get Started!</h1></p>" +
-        "<br>" +
-        "<br>" +
-        "<br>" +
-        "<p><h1>Wins:</h1></p>" +
-        "<br>" +
-        "<br>" +
-        "<p>" + wins + "</p>" +
-        "<br>" +
-        "<br>" +
-        "<br>" +
-        "<p><h1>Current Word </h1></p>" +
-        "<br>" +
-        "<p>" + generateUnderscores + "</p>" +
-        "<br>" +
-        "<br>" +
-        "<br>" +
-        "<p><h1>Number of Guesses remaining</h1></p>" +
-        "<p>" + guessesRemain + "</p>" +
-        "<br>" +
-        "<br>" +
-        "<p><h1>Letters already guessed</h1></p>" +
-        "<p>" + guessesSoFar + "</h1></p>";
-
-    document.querySelector("#stats").innerHTML = html;
 };
+hangmanGame.setupGame();
 
-
-
-
-
-//when user wins reset game.
-//when user wins increase win counter by one
-//}
+    document.onkeyup = function(event) {
+        hangmanGame.letterGuessed = String.fromCharCode(event.which).toLowerCase();
+        hangmanGame.updatePage(hangmanGame.letterGuessed);
+    }

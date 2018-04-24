@@ -1,78 +1,52 @@
-<! DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en-us">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Superhero Hangman</title>
-        <link rel="stylesheet" type="text/css" href="assets/css/reset.css">
         <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-        <script type="text/javascript" src="assets/javascript/game.js"></script>
-        <title> Superhero Hangman</title>
+
     </head>
     <body>
-
-                <header>Superhero Hangman</header>
-        <!--Display Press Any key to get started-->
-            <div class="clearfix">
-                <div id="game">
-                    <div class="section">
-                        <img src="assets/images/universe1.jpg">
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <p>Guess the name of the superhero!</p>
+        <div id="wrapper">
+                <h1>Superhero Hangman</h1>
+        </div>
+            <div id="container">
+                <div id="hero-div">
+                    <img src="assets/images/universe1.jpg" id="hero-image">
+                </div>
+                <div id="stats-section">
+                    <p>Press any key to get started!</p>
+                    <div>
+                        <h3 class="section-title">Wins</h3>
+                        <!-- The div where our wins will be shown. -->
+                        <div id="wins"></div>
                     </div>
-                    <div class="aside" id="stats">
-                        <br>
-                        <br>
-                        <p><h1>Press Any Key To Get Started!</h1></p>
-                        <br>
-                        <br>
-                        <br>
-                        <p><h1>Wins:</h1></p>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <p><h1>Current Word</h1></p>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <br>
-                        <p><h1>Number of Guesses remaining</h1></p>
-                        <br>
-                        <br>
-                        <br>
-                        <p><h1>Letters already guessed</h1></p>
-                        <br>
-                        <br>
-                        <br>
+
+                    <div id="guesses-remaining-section">
+                        <h3 class="section-title">Number of Guesses Remaining</h3>
+                        <!-- The div where our remaining guesses will be shown. -->
+                        <div id="guesses-remaining"></div>
+                    </div>
+                    <div id="guessed-letters-section">
+                        <h3 class="section-title">Letters Already Guessed</h3>
+                        <!-- The div where our guesses letters will be shown. -->
+                        <div id="guessed-letters"></div>
+                    </div>
+                </div>
+                <div id="game-section">
+                    <div id="current-pic-section"></div>
+                    <div id="current-word-section">
+                        <h3 class="section-title">Current Word</h3>
+                        <!-- The div where our current word (and guessing progress) will be shown. -->
+                        <div id="current-word"></div>
                     </div>
                 </div>
             </div>
 
-   <!--Display number of wins-->
 
-  <!--display number of guesses remaining-->
 
-<!--display numbers already guessed-->
+            <script type="text/javascript" src="assets/javascript/game1.js"></script>
 
-<!--when game over automatically choose another word and make user play it-->
-</body>
+    </body>
 
 </html>
