@@ -197,6 +197,9 @@ var hangmanGame = {
             // Update the image of the band on the page.
             var image = this.wordInPlay
             document.querySelector("#hero-div").innerHTML = "<p><img src='assets/images/" + image + ".jpg' id= 'hero-image'></p>";
+            setTimeout(function () {
+                document.querySelector("#hero-div").innerHTML = "<img src='assets/images/universe1.jpg' id='hero-image'>"
+             }, 3000);
             // return true, which will trigger the restart of our game in the updatePage function.
             return true;
         }
