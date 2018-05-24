@@ -18,9 +18,6 @@ Play here: https://matheny130.github.io/Hangman-Game/index.html
 **IF you guess the hero's name correctly a picture of the hero appears in the center for a short time**
 ![](/assets/images/win.jpg)
 
-**Lose and Lightning Cat will be angry**
-![](/assets/images/loss.jpg)
-
 
 Authors
 Mike Matheny
